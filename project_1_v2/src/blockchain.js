@@ -80,7 +80,11 @@ class Blockchain {
             {
                 self.chain.push(block);
                 self.height++;
-                self.validateChain();
+                let errorLog = await self.validateChain();
+                if (!errorLog)
+                {
+                    reject(Error('Error when validating'))    
+                }
                 resolve(block);
             }
             else
@@ -215,12 +219,13 @@ class Blockchain {
     validateChain() {
         let self = this;
         let errorLog = [];
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             for (const b of self.chain)
             {
                 if (b.height != 0)
                 {
-                    if (!b.validate())
+                    let validationResult = await b.validate();
+                    if (!validationResult)
                     {
                         errorLog.push(`Validation error for ${b.hash}`);
                     }
