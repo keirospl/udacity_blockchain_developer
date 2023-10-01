@@ -229,7 +229,7 @@ class Blockchain {
                     {
                         errorLog.push(`Validation error for ${b.hash}`);
                     }
-                    if (b.previousBlockHash != self.getBlockByHeight(b.height - 1).hash)
+                    if (b.previousBlockHash != self.chain[b.height - 1].hash)
                     {
                         errorLog.push(`Wrong previousBlockHash for ${b.hash}`);
                     }
